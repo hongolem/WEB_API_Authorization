@@ -1,0 +1,6 @@
+@WebAuthority_HostAddress = http://localhost:5220
+
+GET {{WebAuthority_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
