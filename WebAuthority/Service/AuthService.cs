@@ -25,7 +25,28 @@ namespace WebAuthority.Service
 
         public bool ValidateToken(string token)
         {
-            return validTokens.Contains(token);
+            if (!validTokens.Contains(token))
+            {
+                return false;
+            }
+            var handler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.UTF8.GetBytes("supersecretkeywhichshouldbenevershared");
+            try
+            {
+                handler.ValidateToken(token, new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(tokenKey),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = "authority_server",
+                    ValidAudience = "authority_client"
+                }, out SecurityToken validatedToken);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         private string CreateAuthenticationToken(LoginRequest request)
