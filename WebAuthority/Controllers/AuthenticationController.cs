@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAuthority.InputModels;
+using WebAuthority.Service;
 
 namespace WebAuthority.Controllers
 {
@@ -9,23 +10,37 @@ namespace WebAuthority.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private IAuthenticationService _authenticationService;
+        private IAuthService _as;
         private ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ILogger<AuthenticationController> logger)
+        public AuthenticationController(IAuthService authService, ILogger<AuthenticationController> logger)
         {
-            _authenticationService = authenticationService;
+            _as = authService;
             _logger = logger;
         }
 
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        [HttpPost("/login")]
+        public IActionResult Login([FromBody] LoginRequest request)
         {
-            var token = _authenticationService.Login(request);
-            if (token == null)
+            try 
+            {
+                var token = _as.Login(request);
+                return Ok(token);
+            }
+            catch
             {
                 return Unauthorized();
             }
-            return Ok(token);
+        }
+
+        [HttpPost("/introspection")]
+        public IActionResult Introspection([FromBody] IntrospectionRequest request)
+        {
+            if (!_as.ValidateToken(request.Token))
+            {
+                return Unauthorized(); // může vracet i třeba {active: false}
+            }
+            return Ok(); // může vracet i rozbalený token
         }
     }
 }
