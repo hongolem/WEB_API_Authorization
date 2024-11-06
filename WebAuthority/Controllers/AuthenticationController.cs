@@ -38,9 +38,9 @@ namespace WebAuthority.Controllers
         {
             if (!_as.ValidateToken(request.Token))
             {
-                return Unauthorized(); // může vracet i třeba {active: false}
+                return Unauthorized(); // může vracet i třeba Ok({active: false})
             }
-            return Ok(); // může vracet i rozbalený token
+            return Ok(new { active = true}); // může vracet i rozbalený token
         }
     }
 }
