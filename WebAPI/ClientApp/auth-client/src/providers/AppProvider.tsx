@@ -26,7 +26,7 @@ const applicationReducer = (state: ApplicationState, action: ApplicationAction):
         case SIGN_IN: {
             const decodedToken = decodeJwt(action.accessToken);
             const userId = decodedToken.sub || decodedToken.user_id;
-            const username = decodedToken.username;
+            const username = decodedToken.email;
             return {...state, userId: userId, username: username, accessToken: action.accessToken};
         }
         case SIGN_OUT:
