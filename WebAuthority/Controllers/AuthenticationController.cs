@@ -22,7 +22,7 @@ namespace WebAuthority.Controllers
         [HttpPost("/login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            try 
+            try
             {
                 var token = _as.Login(request);
                 return Ok(token);

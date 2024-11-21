@@ -11,7 +11,7 @@ export const CLEAR_ACCESS_TOKEN = 'CLEAR_ACCESS_TOKEN';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 
-export type ApplicationAction = 
+export type ApplicationAction =
     {type: 'SET_ACCESS_TOKEN', accessToken: string} |
     {type: 'CLEAR_ACCESS_TOKEN'} |
     {type: 'SIGN_IN', accessToken: string} |

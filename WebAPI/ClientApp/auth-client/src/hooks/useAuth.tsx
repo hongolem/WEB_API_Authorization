@@ -9,7 +9,7 @@ const useAuth = () => {
     const signOut = () => {
         dispatch({type: 'SIGN_OUT'});
     }
-    return {isAuthenticated, signIn, signOut};
+    return {isAuthenticated, signIn, signOut, state};
 }
 
 export default useAuth;
